@@ -12,6 +12,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HabitTracker">
         <activity
+            android:name=".HabitDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateHabitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OnboardingActivity3"
+            android:exported="false" />
+        <activity
+            android:name=".OnboardingActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
