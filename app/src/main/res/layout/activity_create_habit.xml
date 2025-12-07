@@ -14,7 +14,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:src="@drawable/leaf" />
 
     <TextView
         android:id="@+id/tv_title"

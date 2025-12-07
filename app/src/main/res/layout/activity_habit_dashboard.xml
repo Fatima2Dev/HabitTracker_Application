@@ -25,9 +25,9 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_launcher_foreground"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/leaf"
                     app:tint="@android:color/white" />
 
                 <TextView
@@ -73,7 +73,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/progress_text"
+                        android:layout_below="@id/progress_text"
                         android:orientation="vertical">
 
                         <!-- Habit 1 -->
@@ -174,7 +174,7 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:src="@android:drawable/ic_menu_check"
+                            android:src="@android:drawable/checkbox_on_background"
                             android:layout_alignParentEnd="true"/>
 
                     </RelativeLayout>
