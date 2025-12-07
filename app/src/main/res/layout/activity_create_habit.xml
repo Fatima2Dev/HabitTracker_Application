@@ -1,161 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/bg_gradient"
-    android:padding="24dp"
     tools:context=".CreateHabitActivity">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/leaf" />
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Create New Habit"
-        android:textColor="@android:color/white"
-        android:textSize="28sp"
-        android:fontFamily="@font/poppins_bold" />
-
-    <EditText
-        android:id="@+id/et_habit_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/field_bg"
-        android:fontFamily="@font/intereg"
-        android:hint="Drink water after waking up"
-        android:padding="16dp"
-        android:textColorHint="#A0A0A0" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Habit Loop"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:fontFamily="@font/poppins_semibold"/>
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Back"
+        android:src="@drawable/ic_arrow_back" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#2C7B7E"
-            android:text="Cue (Time)" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
 
         <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/leaf" />
+
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_media_play" />
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Create New Habit"
+            android:textColor="@android:color/white"
+            android:textSize="28sp" />
 
-        <Button
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#2C7B7E"
-            android:text="Routine (Action)" />
+            android:layout_marginTop="48dp"
+            android:orientation="horizontal">
 
-        <ImageView
+            <EditText
+                android:id="@+id/et_emoji"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/field_bg"
+                android:fontFamily="@font/intereg"
+                android:gravity="center"
+                android:hint="💡"
+                android:inputType="text"
+                android:maxLength="2"
+                android:padding="16dp"
+                android:textColorHint="#A0A0A0" />
+
+            <EditText
+                android:id="@+id/et_habit_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/field_bg"
+                android:fontFamily="@font/intereg"
+                android:hint="e.g., Drink water"
+                android:inputType="textCapSentences"
+                android:padding="16dp"
+                android:textColorHint="#A0A0A0" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_habit_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/field_bg"
+            android:fontFamily="@font/intereg"
+            android:hint="Why is this habit important to you? (Optional)"
+            android:inputType="textCapSentences"
+            android:padding="16dp"
+            android:textColorHint="#A0A0A0" />
+
+        <EditText
+            android:id="@+id/et_replaces_habit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/field_bg"
+            android:fontFamily="@font/intereg"
+            android:hint="Replaces which bad habit? (Optional)"
+            android:inputType="textCapSentences"
+            android:padding="16dp"
+            android:textColorHint="#A0A0A0" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_media_play" />
+            android:layout_marginTop="24dp"
+            android:text="Choose a Color"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/rg_habit_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_color_1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/color_radio_selector_red"
+                android:button="@null"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/rb_color_2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/color_radio_selector_orange"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/rb_color_3"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/color_radio_selector_green"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/rb_color_4"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/color_radio_selector_blue"
+                android:button="@null" />
+
+        </RadioGroup>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/btn_create_habit"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:backgroundTint="#2C7B7E"
-            android:text="Reward (Feeling)" />
+            android:padding="16dp"
+            android:text="Create Habit"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="e.g, Scrolling phone before bed"
-        android:textColor="#D0D0D0"
-        android:textSize="12sp"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="24dp"
-        android:background="#40FFFFFF" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Repeat"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:text="Daily"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Replaces (Optional)"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Reminder"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"/>
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btn_create_habit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:backgroundTint="#2C7B7E"
-        android:padding="16dp"
-        android:text="Create Habit"
-        android:textColor="@android:color/white"
-        android:textSize="18sp" />
-
-</LinearLayout>
+</RelativeLayout>
