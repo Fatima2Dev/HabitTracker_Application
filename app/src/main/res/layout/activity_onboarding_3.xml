@@ -14,7 +14,7 @@
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:src="@drawable/leaf" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -47,7 +47,7 @@
         android:layout_below="@id/tv_subtitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
-        android:src="@drawable/ic_launcher_foreground" />
+        android:src="@drawable/motivation" />
 
     <Button
         android:id="@+id/btn_next"

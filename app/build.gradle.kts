@@ -41,4 +41,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     this.implementation("com.airbnb.android:lottie:6.1.0")
     this.implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.code.gson:gson:2.10.1")
 }
