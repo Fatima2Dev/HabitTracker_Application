@@ -3,44 +3,56 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/logoplant"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/logoplant"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.HabitTracker">
-        <activity
-            android:name=".HabitDashboardActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CreateHabitActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OnboardingActivity3"
-            android:exported="false" />
-        <activity
-            android:name=".OnboardingActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OnboardingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".splash"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+    android:allowBackup="true"
+    android:dataExtractionRules="@xml/data_extraction_rules"
+    android:fullBackupContent="@xml/backup_rules"
+    android:icon="@mipmap/logoplant"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/logoplant"
+    android:supportsRtl="true"
+    android:theme="@style/Theme.HabitTracker">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+    <activity
+        android:name=".Habit_Details"
+        android:exported="false" />
+
+    <activity
+        android:name=".HabitDashboardActivity"
+        android:exported="false" />
+
+    <activity
+        android:name=".CreateHabitActivity"
+        android:exported="false" />
+
+    <activity
+        android:name=".OnboardingActivity3"
+        android:exported="false" />
+
+    <activity
+        android:name=".OnboardingActivity2"
+        android:exported="false" />
+
+    <activity
+        android:name=".HomeActivity"
+        android:exported="false" />
+
+    <activity
+        android:name=".OnboardingActivity"
+        android:exported="false" />
+
+    <activity
+        android:name=".MainActivity"
+        android:exported="false" />
+
+    <activity
+        android:name=".splash"
+        android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+
+</application>
 
 </manifest>
