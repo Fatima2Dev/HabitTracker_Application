@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -36,7 +37,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
             android:layout_toEndOf="@id/backArrow"
-            android:fontFamily="@font/Calm_Serif"
+            android:fontFamily="@font/calm_serif"
             android:text="Read 20 pages"
             android:textFontWeight="100"
             android:gravity="top|center_horizontal"
@@ -47,137 +48,380 @@
     </RelativeLayout>
 
 
-
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="52dp"
-        android:paddingRight="30dp">
-        <RelativeLayout
-            android:id="@+id/DaysProgressMain"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:padding="16dp"
-            android:layout_centerInParent="true"
-            android:layout_alignParentLeft="true">
-        <ProgressBar
-        android:id="@+id/DaysProgress"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:indeterminate="false"
-        android:layout_centerHorizontal="true"
-        android:max="100"
-        android:progress="75"
-        app:indicatorColor="#2A7B7D"
-        app:trackColor="#2A7B7D"
-        app:trackThickness="12dp"
+        android:layout_height="wrap_content">
 
-        />
-            <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="52dp"
+            android:paddingRight="30dp">
+
+            <RelativeLayout
+                android:id="@+id/DaysProgressMain"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:orientation="vertical">
+                android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/DaysProgressText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="45dp"
-                    android:text="Successful Days:"
-                    android:textSize="11sp"
-                    android:gravity="center"
-                    android:textColor="@color/white"/>
+                <ProgressBar
+                    android:id="@+id/DaysProgress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="75"
+                    app:indicatorColor="#2A7B7D"
+                    app:trackColor="#2A7B7D"
+                    app:trackThickness="12dp"
 
-                <TextView
-                    android:id="@+id/DaysProgressValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="2dp"
-                    android:text="14"
-                    android:textSize="14sp"
-                    android:gravity="center"
-                    android:textColor="@color/white"/>
+                    />
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/DaysProgressText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="45dp"
+                        android:text="Successful Days:"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/DaysProgressValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="2dp"
+                        android:text="14"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
 
 
-            </LinearLayout>
+                </LinearLayout>
 
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_width="10dp"
+                android:layout_height="100dp"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/WeeklyProgressMain"
+                android:layout_toRightOf="@id/DaysProgressMain">
+
+                <View
+                    android:id="@+id/divider_horiz"
+                    android:layout_width="2dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/custom_divider">
+
+                </View>
+            </FrameLayout>
+
+            <RelativeLayout
+                android:id="@+id/WeeklyProgressMain"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:padding="16dp">
+
+                <ProgressBar
+                    android:id="@+id/WeeklyProgress"
+                    style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="75"
+                    app:indicatorColor="#2A7B7D"
+                    app:trackColor="#2A7B7D"
+                    app:trackThickness="12dp" />
+
+                <LinearLayout
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/WeeklyProgressText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="42dp"
+                        android:text="Weekly Success Rate:"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/WeeklyProgressValue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="2dp"
+                        android:text="80%"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
         </RelativeLayout>
-        <FrameLayout
-            android:layout_width="10dp"
-            android:layout_height="100dp"
-            android:layout_toRightOf="@id/DaysProgressMain"
-            android:layout_toLeftOf="@id/WeeklyProgressMain"
-            android:layout_centerVertical="true">
+
         <View
-            android:id="@+id/divider2"
-            android:layout_width="2dp"
-            android:layout_height="100dp"
-            android:background="@drawable/custom_divider"
-            android:layout_gravity="center"
-           >
-        </FrameLayout>
+            android:id="@+id/divider"
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/custom_divider">
 
-    <RelativeLayout
-        android:id="@+id/WeeklyProgressMain"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:padding="16dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentRight="true">
+        </View>
 
-        <ProgressBar
-        android:id="@+id/WeeklyProgress"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:indeterminate="false"
-        android:max="100"
-        app:indicatorColor="#2A7B7D"
-        app:trackColor="#2A7B7D"
-        app:trackThickness="12dp"
-        android:progress="75"
-            android:layout_centerHorizontal="true"
-            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_light"
+            android:paddingStart="35dp"
+            android:paddingTop="8dp"
+            android:text="Habit Loop"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
         <LinearLayout
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/WeeklyProgressText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="42dp"
-                android:text="Weekly Success Rate:"
-                android:textSize="11sp"
-                android:gravity="center"
-                android:textColor="@color/white"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="35dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="25dp">
 
-            <TextView
-                android:id="@+id/WeeklyProgressValue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:text="80%"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:textColor="@color/white"/>
+            <FrameLayout
+                android:layout_width="160dp"
+                android:layout_height="130dp"
+                android:layout_marginRight="25dp">
+
+                <View
+                    android:layout_width="160dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/rounded_rectangle"></View>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:text="Cue (Time)"
+                    android:textColor="#0F383D"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/cue_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:text="After my morning coffee"
+                        android:textColor="#749DA0"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </ScrollView>
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="160dp"
+                android:layout_height="130dp">
+
+                <View
+                    android:layout_width="160dp"
+                    android:layout_height="130dp"
+                    android:background="@drawable/rounded_rectangle"></View>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Routine (Action):"
+                    android:textColor="#0F383D"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/routine_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="13dp"
+                        android:text="Read book for 20 minutes"
+                        android:textColor="#749DA0"
+                        android:textStyle="bold">
+
+                    </TextView>
+                </ScrollView>
+            </FrameLayout>
 
 
         </LinearLayout>
 
+        <FrameLayout
+            android:layout_width="160dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp">
 
-    </RelativeLayout>
-    </RelativeLayout>
+            <View
+                android:layout_width="160dp"
+                android:layout_height="130dp"
+                android:background="@drawable/rounded_rectangle"></View>
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="350dp"
-        android:layout_height="2dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/custom_divider">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="15dp"
+                android:text="Reward (Feeling):"
+                android:textColor="#0F383D"
+                android:textStyle="bold">
 
+            </TextView>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/reward_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="13dp"
+                    android:text="Accomplished and smarter"
+                    android:textColor="#749DA0"
+                    android:textStyle="bold">
+
+                </TextView>
+            </ScrollView>
+        </FrameLayout>
+
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/rectangular_button"
+            android:backgroundTint="@null"
+            android:text="Mark Done"></Button>
+
+        <View
+            android:id="@+id/divider_horiz2"
+            android:layout_width="350dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/custom_divider">
+
+        </View>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_light"
+            android:paddingStart="35dp"
+            android:paddingTop="8dp"
+            android:text="Reflection"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="13dp"
+            android:paddingStart="21dp"
+            android:text="How did you feel today?"
+            android:textColor="@color/white">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="13dp"
+            android:paddingStart="35dp"
+            android:paddingBottom="35dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/happy_face_30">
+
+        </ImageView>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="15dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/neutral_face_30">
+
+            </ImageView>
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/sad_face_30">
+
+            </ImageView>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+    </ScrollView>
 </LinearLayout>
