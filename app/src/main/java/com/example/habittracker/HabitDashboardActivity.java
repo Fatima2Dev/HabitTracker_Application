@@ -90,16 +90,13 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
 
     private void updateProgressIndicator() {
         long completedCount = 0;
-        long activeHabitCount = 0;
+        long totalHabitCount = habits.size();
         for (Habit habit : habits) {
-            if (habit.getReplaces() == null || habit.getReplaces().isEmpty()) {
-                activeHabitCount++;
-                if (habit.isCompleted()) {
-                    completedCount++;
-                }
+            if (habit.isCompleted()) {
+                completedCount++;
             }
         }
-        progressIndicatorTextView.setText(activeHabitCount + "/" + completedCount);
+        progressIndicatorTextView.setText(totalHabitCount + "/" + completedCount);
     }
 
     private void updateEmptyState() {
