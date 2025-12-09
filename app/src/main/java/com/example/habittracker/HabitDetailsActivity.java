@@ -17,10 +17,5 @@ public class HabitDetailsActivity extends AppCompatActivity {
         String habitName = getIntent().getStringExtra(EXTRA_HABIT_NAME);
         String habitDescription = getIntent().getStringExtra(EXTRA_HABIT_DESCRIPTION);
 
-        TextView nameTextView = findViewById(R.id.tv_habit_name_details);
-        TextView descriptionTextView = findViewById(R.id.tv_habit_description_details);
-
-        nameTextView.setText(habitName);
-        descriptionTextView.setText(habitDescription);
     }
 }
