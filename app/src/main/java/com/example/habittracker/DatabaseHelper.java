@@ -29,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Method to add a new user (Sign Up)
+
     public boolean addUser(String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1; // returns true if insert is successful
     }
 
-    // Method to check if user exists (Log In)
+
     public boolean checkUser(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] columns = { COL_1 };
@@ -49,6 +49,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
         cursor.close();
-        return count > 0; // returns true if user exists
+        return count > 0;
     }
 }

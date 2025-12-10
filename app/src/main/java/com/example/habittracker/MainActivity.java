@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 if (e.isEmpty() || p.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Try to add user to database
+
                     boolean isInserted = db.addUser(e, p);
                     if (isInserted) {
                         Toast.makeText(MainActivity.this, "Account Created! Logging in...", Toast.LENGTH_SHORT).show();
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 if (e.isEmpty() || p.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Check database for user
+
                     boolean check = db.checkUser(e, p);
                     if (check) {
                         Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
