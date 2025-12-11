@@ -5,37 +5,49 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private Context context;
 
     public static final String DATABASE_NAME = "HabitTracker.db";
     public static final String TABLE_NAME = "users";
 
-    public static final String TABLE_HABIT = "Habits";
+    public static final String TABLE_HABITS = "Habits";
     public static final String COL_1 = "ID";
     public static final String COL_2 = "EMAIL";
     public static final String COL_3 = "PASSWORD";
 
     public static final String T2_COL_1 = "Habit_ID";
-    public static final String T2_COL_2 = "Cue";
-    public static final String T2_COL_3 = "Reward";
-    public static final String T2_COL_4 = "Habit_replaced";
+    public static final String T2_COL_2 = "Habit_name";
+    public static final String T2_COL_3 = "Cue";
+    public static final String T2_COL_4 = "Action";
+    public static final String T2_COL_5 = "Reward";
+    public static final String T2_COL_6 = "Habit_replaced";
 
-
+    public static final String T2_COL_7 = "Habit_hour";
+    public static final String T2_COL_8 = "Habit_minutes";
 
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        this.context=context;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        String createHabitsTable = "CREATE TABLE "+TABLE_HABIT+" (" +
+    public void onCreate(@NonNull SQLiteDatabase db) {
+        String createHabitsTable = "CREATE TABLE "+TABLE_HABITS+" (" +
                 "Habit_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "Habit_name NOT NULL"+
                 "Cue TEXT, " +
                 "Action TEXT, " +
                 "Reward TEXT, " +
                 "Habit_replaced TEXT" +
+                "Habit_hour INTEGER" +
+                "Habit_minutes INTEGER"+
                 ");";
 
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT, PASSWORD TEXT)");
@@ -45,7 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HABIT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_HABITS);
         onCreate(db);
     }
 
@@ -71,4 +83,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return count > 0;
     }
+
+    public boolean addHabit(String name,String cue, String action, String reward, String replacedHabit, int hour , int minute) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        if (habitExists(name)){
+            Toast.makeText(context, "There already exists a habit with the entered name",Toast.LENGTH_LONG).show();
+            return false;
+        }
+        contentValues.put(T2_COL_2,name);
+        contentValues.put(T2_COL_3, cue);
+        contentValues.put(T2_COL_4, action);
+        contentValues.put(T2_COL_5, reward);
+        contentValues.put(T2_COL_6,replacedHabit);
+        contentValues.put(T2_COL_7,hour);
+        contentValues.put(T2_COL_8,minute);
+
+
+
+        long result = db.insert(TABLE_HABITS, null, contentValues);
+        return result != -1; // returns true if insert is successful
+    }
+
+    public boolean updateHabit(int id,String name, String cue, String action, String reward, String replacedHabit, int hour, int minute) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        if (habitExists(name)){
+            Toast.makeText(context, "There already exists a habit with the entered name",Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        String ID = Integer.toString(id);
+        values.put(T2_COL_2, name);
+        values.put(T2_COL_3, cue);
+        values.put(T2_COL_4, action);
+        values.put(T2_COL_5, reward);
+        values.put(T2_COL_6,replacedHabit);
+        values.put(T2_COL_7,hour);
+        values.put(T2_COL_8,minute);
+
+        int rows = db.update(TABLE_HABITS,values, T2_COL_1+" = ?",new String[]{ID});
+        return rows > 0;
+    }
+
+    public boolean habitExists(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_HABITS,
+                new String[]{"id"},
+                T2_COL_2+" = ?",
+                new String[]{name},
+                null, null, null
+        );
+
+        boolean exists = false;
+        if (cursor != null) {
+            if( cursor.getCount() > 0)
+            {exists=true;};
+            cursor.close();
+        }
+
+        return exists;
+    }
+
+    public boolean deleteHabit(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int rows = db.delete(TABLE_HABITS,
+                T2_COL_1+" = ?",
+                new String[]{String.valueOf(id)}
+        );
+
+        return rows > 0;
+    }
+
+
+
+
+
+
+
 }
