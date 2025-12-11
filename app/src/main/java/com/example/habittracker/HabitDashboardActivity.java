@@ -45,7 +45,7 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
                     int habitColor = result.getData().getIntExtra(CreateHabitActivity.EXTRA_HABIT_COLOR, Color.parseColor("#FF7043"));
 
                     if (habitName != null && !habitName.isEmpty()) {
-                        Habit newHabit = new Habit(habitName, habitDescription, replacesHabit, emoji, 0, false, habitColor);
+                        Habit newHabit = new Habit(habitName, habitDescription, replacesHabit, emoji, 0, 0, habitColor);
                         habits.add(0, newHabit);
                         habitAdapter.notifyItemInserted(0);
                         saveAndRefresh();
@@ -91,7 +91,7 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         long completedCount = 0;
         long totalHabitCount = habits.size();
         for (Habit habit : habits) {
-            if (habit.isCompleted()) {
+            if (habit.isCompleted()==1) {
                 completedCount++;
             }
         }
@@ -133,7 +133,7 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         Habit habit = habits.get(position);
         Intent intent = new Intent(this, HabitDetailsActivity.class);
         intent.putExtra(HabitDetailsActivity.EXTRA_HABIT_NAME, habit.getName());
-        intent.putExtra(HabitDetailsActivity.EXTRA_HABIT_DESCRIPTION, habit.getDescription());
+        //intent.putExtra(HabitDetailsActivity.EXTRA_HABIT_DESCRIPTION, habit.getDescription());
         startActivity(intent);
     }
 

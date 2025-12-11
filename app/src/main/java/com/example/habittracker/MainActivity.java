@@ -2,6 +2,7 @@ package com.example.habittracker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,12 +37,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String e = email.getText().toString().trim();
                 String p = password.getText().toString().trim();
+                int userId;
                 if (e.isEmpty() || p.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 } else {
 
                     boolean isInserted = db.addUser(e, p);
                     if (isInserted) {
+                        userId = db.getUserID(e,p);
+                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                        prefs.edit().putInt("currentUserId", userId).apply();
+
                         Toast.makeText(MainActivity.this, "Account Created! Logging in...", Toast.LENGTH_SHORT).show();
                         goToDashboard();
                     } else {
