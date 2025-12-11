@@ -71,8 +71,9 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
                     Habit habit = habits.get(position);
-                    habit.setCompleted(completedCheckBox.isChecked());
-                    updateStrikeThrough(habit.isCompleted());
+                    if(completedCheckBox.isChecked()){
+                    habit.setCompleted(1);}
+                    updateStrikeThrough(habit.isCompleted()==1);
                     listener.onHabitStateChanged();
                 }
             });
@@ -97,14 +98,14 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         void bind(final Habit habit) {
             habitColorView.setBackgroundColor(habit.getColor());
             nameTextView.setText(habit.getName());
-            completedCheckBox.setChecked(habit.isCompleted());
-            updateStrikeThrough(habit.isCompleted());
+            completedCheckBox.setChecked(habit.isCompleted()==1);
+            updateStrikeThrough(habit.isCompleted()==1);
 
             emojiTextView.setVisibility(habit.getEmoji() != null && !habit.getEmoji().isEmpty() ? View.VISIBLE : View.GONE);
             emojiTextView.setText(habit.getEmoji());
 
-            descriptionTextView.setVisibility(habit.getDescription() != null && !habit.getDescription().isEmpty() ? View.VISIBLE : View.GONE);
-            descriptionTextView.setText(habit.getDescription());
+            //descriptionTextView.setVisibility(habit.getDescription() != null && !habit.getDescription().isEmpty() ? View.VISIBLE : View.GONE);
+            //descriptionTextView.setText(habit.getDescription());
 
             boolean isReplaced = habit.getReplaces() != null && !habit.getReplaces().isEmpty();
             replacesTextView.setVisibility(isReplaced ? View.VISIBLE : View.GONE);
