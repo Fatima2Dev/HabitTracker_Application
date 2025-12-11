@@ -31,6 +31,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String T2_COL_7 = "Habit_hour";
     public static final String T2_COL_8 = "Habit_minutes";
 
+    public static final String T2_COL_9 = "Habit_reflection";
+
+    public static final String T2_COL_10 = "Current_Feeling";
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -48,6 +52,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Habit_replaced TEXT" +
                 "Habit_hour INTEGER" +
                 "Habit_minutes INTEGER"+
+                "Habit_reflection TEXT"+
+                "Current_feeling INT"+
                 ");";
 
         db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT, PASSWORD TEXT)");
@@ -84,7 +90,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count > 0;
     }
 
-    public boolean addHabit(String name,String cue, String action, String reward, String replacedHabit, int hour , int minute) {
+    public boolean addHabit(String name,String cue, String action, String reward,
+                            String replacedHabit,
+                            int hour , int minute, String reflection, int feeling) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -99,6 +107,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(T2_COL_6,replacedHabit);
         contentValues.put(T2_COL_7,hour);
         contentValues.put(T2_COL_8,minute);
+        contentValues.put(T2_COL_9,reflection);
+        contentValues.put(T2_COL_8,feeling);
 
 
 
@@ -106,7 +116,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1; // returns true if insert is successful
     }
 
-    public boolean updateHabit(int id,String name, String cue, String action, String reward, String replacedHabit, int hour, int minute) {
+    public boolean updateHabit(int id,String name, String cue, String action, String reward,
+                               String replacedHabit,
+                               int hour, int minute,
+                               String reflection, int feeling) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -123,6 +136,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(T2_COL_6,replacedHabit);
         values.put(T2_COL_7,hour);
         values.put(T2_COL_8,minute);
+        values.put(T2_COL_9,reflection);
+        values.put(T2_COL_10,feeling);
 
         int rows = db.update(TABLE_HABITS,values, T2_COL_1+" = ?",new String[]{ID});
         return rows > 0;
