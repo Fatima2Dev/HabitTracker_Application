@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
+    private final Context context;
 
     public static final String DATABASE_NAME = "HabitTracker.db";
     public static final String TABLE_NAME = "users";
@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String T2_COL_1 = "Habit_ID";
     public static final String T2_COL_2 = "Habit_name";
     public static final String T2_COL_3 = "Cue";
-    public static final String T2_COL_4 = "Action";
+    public static final String T2_COL_4 = "Habit_action";
     public static final String T2_COL_5 = "Reward";
     public static final String T2_COL_6 = "Habit_replaced";
 
@@ -53,18 +53,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(@NonNull SQLiteDatabase db) {
         String createHabitsTable = "CREATE TABLE "+TABLE_HABITS+" (" +
                 "Habit_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "Habit_name NOT NULL"+
+                "Habit_name NOT NULL,"+
                 "Cue TEXT, " +
-                "Action TEXT, " +
+                "Habit_action TEXT, " +
                 "Reward TEXT, " +
-                "Habit_replaced TEXT" +
-                "Habit_hour INTEGER" +
-                "Habit_minutes INTEGER"+
-                "Habit_reflection TEXT"+
-                "Current_feeling INT"+
-                "Streak INT"+
-                "Color INT"+
-                "User_ID INT NOT NULL"+
+                "Habit_replaced TEXT," +
+                "Habit_hour INTEGER," +
+                "Habit_minutes INTEGER,"+
+                "Habit_reflection TEXT,"+
+                "Current_feeling INT,"+
+                "Streak INT,"+
+                "Color INT,"+
+                "User_ID INT NOT NULL,"+
                 "Completed INT NOT NULL"+
                 ");";
 
@@ -197,7 +197,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         boolean exists = false;
         if (cursor != null) {
             if( cursor.getCount() > 0)
-            {exists=true;};
+            {exists=true;}
             cursor.close();
         }
 
