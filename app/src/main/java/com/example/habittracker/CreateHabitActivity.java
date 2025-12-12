@@ -1,13 +1,17 @@
 package com.example.habittracker;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CreateHabitActivity extends AppCompatActivity {
@@ -18,6 +22,12 @@ public class CreateHabitActivity extends AppCompatActivity {
     public static final String EXTRA_EMOJI = "com.example.habittracker.EXTRA_EMOJI";
     public static final String EXTRA_HABIT_COLOR = "com.example.habittracker.EXTRA_HABIT_COLOR";
 
+    DatabaseHelper db = new DatabaseHelper(this);
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +36,10 @@ public class CreateHabitActivity extends AppCompatActivity {
         ImageButton backButton = findViewById(R.id.btn_back);
         EditText emojiEditText = findViewById(R.id.et_emoji);
         EditText habitNameEditText = findViewById(R.id.et_habit_name);
-        EditText habitDescriptionEditText = findViewById(R.id.et_habit_description);
-        EditText replacesHabitEditText = findViewById(R.id.et_replaces_habit);
+        EditText habitActionEditText = findViewById(R.id.et_habit_action);
+        EditText habitCueEditText = findViewById(R.id.et_habit_cue);
+        EditText habitRewardEditText = findViewById(R.id.et_habit_reward);
+        EditText replacesHabitEditText = findViewById(R.id.et_habit_replaces);
         RadioGroup colorRadioGroup = findViewById(R.id.rg_habit_color);
         Button createHabitButton = findViewById(R.id.btn_create_habit);
 
@@ -42,22 +54,33 @@ public class CreateHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String habitName = habitNameEditText.getText().toString();
-                String habitDescription = habitDescriptionEditText.getText().toString();
+                String habitCue = habitCueEditText.getText().toString();
+                String habitAction = habitActionEditText.getText().toString();
+                String habitReward = habitRewardEditText.getText().toString();
                 String replacesHabit = replacesHabitEditText.getText().toString();
                 String emoji = emojiEditText.getText().toString();
                 int selectedColor = getSelectedColor(colorRadioGroup.getCheckedRadioButtonId());
 
-                if (!habitName.isEmpty()) {
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra(EXTRA_HABIT_NAME, habitName);
-                    resultIntent.putExtra(EXTRA_HABIT_DESCRIPTION, habitDescription);
-                    resultIntent.putExtra(EXTRA_REPLACES_HABIT, replacesHabit);
-                    resultIntent.putExtra(EXTRA_EMOJI, emoji);
-                    resultIntent.putExtra(EXTRA_HABIT_COLOR, selectedColor);
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                int userId = prefs.getInt("userId", -1);
+
+                boolean result = db.addHabit(habitName,habitCue,habitAction,habitReward,replacesHabit,"",
+                        0,0,selectedColor,userId);
+                
+                if (result==true){
+
+                    Intent dashboard = new Intent(getApplicationContext(),HabitDashboardActivity.class);
+                    startActivity(dashboard);
+                    finish();}
+                    else {
+                    Toast.makeText(CreateHabitActivity.this,"Failed to create habit",Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-            }
+                
+
+
+
         });
     }
 

@@ -30,18 +30,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String T2_COL_5 = "Reward";
     public static final String T2_COL_6 = "Habit_replaced";
 
-    public static final String T2_COL_7 = "Habit_hour";
-    public static final String T2_COL_8 = "Habit_minutes";
 
-    public static final String T2_COL_9 = "Habit_reflection";
 
-    public static final String T2_COL_10 = "Current_Feeling";
-    public static final String T2_COL_11 = "Streak";
-    public static final String T2_COL_12 = "Color";
+    public static final String T2_COL_7 = "Habit_reflection";
 
-    public static final String T2_COL_13 = "Completed";
+    public static final String T2_COL_8 = "Current_Feeling";
+    public static final String T2_COL_9 = "Streak";
+    public static final String T2_COL_10 = "Color";
 
-    public static final String T2_COL_14 = "User_ID";
+    public static final String T2_COL_11= "Completed";
+
+    public static final String T2_COL_12 = "User_ID";
 
 
     public DatabaseHelper(Context context) {
@@ -58,8 +57,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Habit_action TEXT, " +
                 "Reward TEXT, " +
                 "Habit_replaced TEXT," +
-                "Habit_hour INTEGER," +
-                "Habit_minutes INTEGER,"+
+
                 "Habit_reflection TEXT,"+
                 "Current_feeling INT,"+
                 "Streak INT,"+
@@ -125,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean addHabit(String name,String cue, String action, String reward,
                             String replacedHabit,
-                            int hour , int minute, String reflection, int feeling, int streak, int color, int userid) {
+                            String reflection, int feeling, int streak, int color, int userid) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -138,14 +136,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(T2_COL_4, action);
         contentValues.put(T2_COL_5, reward);
         contentValues.put(T2_COL_6,replacedHabit);
-        contentValues.put(T2_COL_7,hour);
-        contentValues.put(T2_COL_8,minute);
-        contentValues.put(T2_COL_9,reflection);
-        contentValues.put(T2_COL_10,feeling);
-        contentValues.put(T2_COL_11,streak);
-        contentValues.put(T2_COL_12,color);
-        contentValues.put(T2_COL_13,0);
-        contentValues.put(T2_COL_14,userid);
+
+        contentValues.put(T2_COL_7,reflection);
+        contentValues.put(T2_COL_8,feeling);
+        contentValues.put(T2_COL_9,streak);
+        contentValues.put(T2_COL_10,color);
+        contentValues.put(T2_COL_11,0);
+        contentValues.put(T2_COL_12,userid);
 
 
 
@@ -155,7 +152,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean updateHabit(int id,String name, String cue, String action, String reward,
                                String replacedHabit,
-                               int hour, int minute,
+
                                String reflection, int feeling,int streak, int color,int userid) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -171,13 +168,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(T2_COL_4, action);
         values.put(T2_COL_5, reward);
         values.put(T2_COL_6,replacedHabit);
-        values.put(T2_COL_7,hour);
-        values.put(T2_COL_8,minute);
-        values.put(T2_COL_9,reflection);
-        values.put(T2_COL_10,feeling);
-        values.put(T2_COL_11,streak);
-        values.put(T2_COL_12,color);
-        values.put(T2_COL_14,userid);
+
+        values.put(T2_COL_7,reflection);
+        values.put(T2_COL_8,feeling);
+        values.put(T2_COL_9,streak);
+        values.put(T2_COL_10,color);
+        values.put(T2_COL_12,userid);
 
 
         int rows = db.update(TABLE_HABITS,values, T2_COL_1+" = ?",new String[]{ID});
@@ -236,14 +232,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_4)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_5)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_6)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_7)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_7)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_8)),
-                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_9)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_9)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_10)),
                         cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_11)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_12)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_13)),
-                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_14))
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_12))
                 );
                 habitList.add(habit);
             } while (cursor.moveToNext());

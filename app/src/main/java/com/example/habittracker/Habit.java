@@ -10,8 +10,7 @@ public class Habit {
     private String Reward;
     private String replaces;
 
-    private int Hour;
-    private int Minutes;
+
 
     private String Habit_reflection;
 
@@ -34,7 +33,7 @@ public class Habit {
         this.color = color;
     }
     public Habit(String Habit_ID, String name, String Cue, String Action, String Reward,
-                 String replaces, int Hour, int Minutes, String Habit_reflection,
+                 String replaces, String Habit_reflection,
                  int Current_Feeling, int streak, int color, int isCompleted,int userid) {
 
         this.Habit_ID = Habit_ID;
@@ -43,8 +42,6 @@ public class Habit {
         this.Action = Action;
         this.Reward = Reward;
         this.replaces = replaces;
-        this.Hour = Hour;
-        this.Minutes = Minutes;
         this.Habit_reflection = Habit_reflection;
         this.Current_Feeling = Current_Feeling;
         this.streak = streak;
@@ -54,7 +51,7 @@ public class Habit {
     }
 
     public Habit(String Habit_ID, String name, String Cue, String Action, String Reward,
-                 String replaces, int Hour, int Minutes, String Habit_reflection,
+                 String replaces,  String Habit_reflection,
                  int Current_Feeling) {
 
         this.Habit_ID = Habit_ID;
@@ -63,8 +60,6 @@ public class Habit {
         this.Action = Action;
         this.Reward = Reward;
         this.replaces = replaces;
-        this.Hour = Hour;
-        this.Minutes = Minutes;
         this.Habit_reflection = Habit_reflection;
         this.Current_Feeling = Current_Feeling;
     }
@@ -90,13 +85,6 @@ public class Habit {
         return Reward;
     }
 
-    public int getHour() {
-        return Hour;
-    }
-
-    public int getMinutes() {
-        return Minutes;
-    }
 
     public String getHabit_reflection() {
         return Habit_reflection;

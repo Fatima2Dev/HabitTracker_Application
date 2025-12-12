@@ -6,6 +6,7 @@
     android:background="@drawable/bg_gradient"
     tools:context=".CreateHabitActivity">
 
+
     <ImageButton
         android:id="@+id/btn_back"
         android:layout_width="48dp"
@@ -42,6 +43,14 @@
             android:text="Create New Habit"
             android:textColor="@android:color/white"
             android:textSize="28sp" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -70,41 +79,70 @@
                 android:layout_weight="1"
                 android:background="@drawable/field_bg"
                 android:fontFamily="@font/intereg"
-                android:hint="e.g., Drink water"
+                android:hint="Enter Habit name \n(e.g., Drink water)"
                 android:inputType="textCapSentences"
                 android:padding="16dp"
-                android:textColorHint="#A0A0A0" />
+                android:textColorHint="#337789" />
 
         </LinearLayout>
 
+
+
         <EditText
-            android:id="@+id/et_habit_description"
+            android:id="@+id/et_habit_action"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@drawable/field_bg"
             android:fontFamily="@font/intereg"
-            android:hint="Why is this habit important to you? (Optional)"
+            android:hint="What exactly will you do? \n(e.g., Drink 1 glass of water at 8 AM)"
             android:inputType="textCapSentences"
             android:padding="16dp"
-            android:textColorHint="#A0A0A0" />
+            android:textColorHint="#337789" />
 
-        <EditText
-            android:id="@+id/et_replaces_habit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/field_bg"
-            android:fontFamily="@font/intereg"
-            android:hint="Replaces which bad habit? (Optional)"
-            android:inputType="textCapSentences"
-            android:padding="16dp"
-            android:textColorHint="#A0A0A0" />
+            <EditText
+                android:id="@+id/et_habit_cue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/field_bg"
+                android:fontFamily="@font/intereg"
+                android:hint="When will you do this habit? \n (e.g., Morning, After workout)"
+                android:inputType="textCapSentences"
+                android:padding="16dp"
+                android:textColorHint="#337789" />
 
-        <TextView
+
+            <EditText
+                android:id="@+id/et_habit_reward"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/field_bg"
+                android:fontFamily="@font/intereg"
+                android:hint="What’s your reward? \n (e.g., Feel energized, Small treat)"
+                android:inputType="textCapSentences"
+                android:padding="16dp"
+                android:textColorHint="#337789" />
+
+            <EditText
+                android:id="@+id/et_habit_replaces"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/field_bg"
+                android:fontFamily="@font/intereg"
+                android:hint="Replaces which bad habit? (Optional)"
+                android:inputType="textCapSentences"
+                android:padding="16dp"
+                android:textColorHint="#337789" />
+
+
+            <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
             android:text="Choose a Color"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
@@ -151,6 +189,8 @@
 
         </RadioGroup>
 
+
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -161,10 +201,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#2C7B7E"
+            android:layout_marginTop="20dp"
             android:padding="16dp"
             android:text="Create Habit"
             android:textColor="@android:color/white"
             android:textSize="18sp" />
+
+    </LinearLayout>
+</ScrollView>
 
     </LinearLayout>
 </RelativeLayout>
