@@ -1,5 +1,6 @@
 package com.example.habittracker;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Habit_Details extends AppCompatActivity {
 
-    String habit_name= "Read 20 pages";
     TextView Habitname_tv;
+
+
+    private DatabaseHelper db;
 
     public static final String EXTRA_HABIT_ID = "extra_habit_id";
 
@@ -30,9 +33,19 @@ public class Habit_Details extends AppCompatActivity {
             return insets;
         });
 
+        Intent intent = getIntent();
+        int habitId = intent.getIntExtra(EXTRA_HABIT_ID, -1);
+        if (habitId != -1) {
+            Habit habit = db.getHabitById(habitId);
+
+            if (habit != null) {
+
+            }
+
         ImageView backArrow = findViewById(R.id.backArrow);
         Habitname_tv =(TextView)findViewById(R.id.habit_name_tv);
         Habitname_tv.setText(habit_name);
+
 
         backArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,4 +54,4 @@ public class Habit_Details extends AppCompatActivity {
             }
         });
 }
-}
+}}

@@ -273,6 +273,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return habitList;
     }
 
+    // In C:/Users/fatim/Desktop/GitHub/HabitTracker_Application/app/src/main/java/com/example/habittracker/DatabaseHelper.java
+
+// ... (after the getAllHabits method)
+
+    public Habit getHabitById(int habitId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Habit habit = null;
+
+        try (Cursor cursor = db.query(
+                TABLE_HABITS,
+                null,
+                T2_COL_1 + " = ?",
+                new String[]{String.valueOf(habitId)},
+                null, null, null
+        )) {
+            if (cursor.moveToFirst()) {
+                habit = new Habit(
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_1)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_2)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_3)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_4)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_5)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_6)),
+                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_7)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_8)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_9)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_10)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_11)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_12))
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return habit; // Return the found habit, or null if not found
+    }
+
 
 }
 

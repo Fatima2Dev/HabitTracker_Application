@@ -241,17 +241,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/cue_tv"
+                    <EditText
+                        android:id="@+id/cue_et"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@android:color/transparent"
                         android:text="After my morning coffee"
                         android:textColor="#749DA0"
                         android:textStyle="bold">
 
-                    </TextView>
+                    </EditText>
                 </ScrollView>
             </FrameLayout>
 
@@ -280,18 +283,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/routine_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
                         android:layout_marginTop="13dp"
-                        android:text="Read book for 20 minutes"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@android:color/transparent"
                         android:textColor="#749DA0"
                         android:textStyle="bold">
 
-                    </TextView>
+                    </EditText>
                 </ScrollView>
             </FrameLayout>
 
@@ -332,7 +337,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
                     android:layout_marginTop="13dp"
-                    android:text="Accomplished and smarter"
+                    android:background="@android:color/transparent"
                     android:textColor="#749DA0"
                     android:textStyle="bold">
 
@@ -341,21 +346,13 @@
         </FrameLayout>
 
 
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/rectangular_button"
-            android:backgroundTint="@null"
-            android:text="Mark Done"></Button>
 
         <View
             android:id="@+id/divider_horiz2"
             android:layout_width="350dp"
             android:layout_height="2dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="40dp"
             android:background="@drawable/custom_divider">
 
         </View>
@@ -381,7 +378,12 @@
         </TextView>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="13dp"
             android:paddingStart="35dp"
@@ -419,6 +421,72 @@
 
 
     </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="130dp"
+                android:layout_marginStart="35dp">
+
+                <View
+                    android:layout_width="275dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_rectangle"
+                    android:layout_marginBottom="20dp"
+                    ></View>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Routine (Action):"
+                    android:textColor="#0F383D"
+                    android:textStyle="bold">
+
+                </TextView>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/reflection_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="10dp"
+                        android:layout_marginTop="13dp"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:background="@android:color/transparent"
+                        android:textColor="#749DA0"
+                        android:textStyle="bold">
+
+                    </EditText>
+                </ScrollView>
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+
+            android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginStart="20dp"
+                android:textColor="#D8F8F1"
+                android:background="@drawable/rectangular_button"
+                android:backgroundTint="@null"
+                android:text="@string/edit_habit">
+        </androidx.appcompat.widget.AppCompatButton>
+
+
+
+
+        </LinearLayout>
+
+
 
 
 </LinearLayout>
