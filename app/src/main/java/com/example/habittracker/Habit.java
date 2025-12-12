@@ -104,4 +104,7 @@ public class Habit {
     public void setCompleted(int completed) {
         isCompleted = completed;
     }
+
+    public String getHabit_replaced() {
+    }
 }

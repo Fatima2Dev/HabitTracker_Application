@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,9 @@ public class Habit_Details extends AppCompatActivity {
 
 
     private DatabaseHelper db;
+    Habit habit;
+    int habitId;
+
 
     public static final String EXTRA_HABIT_ID = "extra_habit_id";
 
@@ -61,9 +65,9 @@ public class Habit_Details extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        int habitId = intent.getIntExtra(EXTRA_HABIT_ID, -1);
+        habitId = intent.getIntExtra(EXTRA_HABIT_ID, -1);
         if (habitId != -1) {
-            Habit habit = db.getHabitById(habitId);
+            habit = db.getHabitById(habitId);
 
             if (habit != null) {
 
@@ -86,15 +90,20 @@ public class Habit_Details extends AppCompatActivity {
             }
         });
 
-        save_btn.setOnClickListener(new View.OnClickListener() {
+        edit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean success = editClick();
+                if (success){
+                    Toast.makeText(Habit_Details.this,"Please change your desired fields",Toast.LENGTH_SHORT).show();
+                }
+
 
             }
 
         });
 
-        edit_btn.setOnClickListener(new View.OnClickListener() {
+        save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -106,7 +115,33 @@ public class Habit_Details extends AppCompatActivity {
 
     }
 
-    public boolean editHabits(){
+    public boolean editClick(){
+        EditButtonHide();
+        enableEditing();
+        SaveButtonShow();
+        return true;
+
+
+    }
+
+    public boolean saveClick(){
+
+    }
+
+    public boolean updateHabit(){
+
+        if (habit == null) {
+            return false; }
+
+        String updatedCue = cue_et.getText().toString();
+        String updatedAction = action_et.getText().toString();
+        String updatedReward = reward_et.getText().toString();
+        String updatedReflection = notes_et.getText().toString();
+         db.updateHabit(habit.getHabit_ID(),habit.getName(),updatedCue,updatedAction,updatedReward,
+                habit.getHabit_replaced(),updatedReflection,habit.getCurrent_feeling(),habit.getStreak(),habit.getColor(),habit.getCompleted(),habit.getUser_ID())
+
+
+
 
     }
 
@@ -128,18 +163,22 @@ public class Habit_Details extends AppCompatActivity {
     }
 
     public void EditButtonHide(){
+        edit_btn.setVisibility(View.GONE);
 
     }
 
     public void EditButtonShow(){
+        edit_btn.setVisibility(View.VISIBLE);
 
     }
 
     public void SaveButtonHide(){
+        save_btn.setVisibility(View.GONE);
 
     }
 
     public void SaveButtonShow(){
+        save_btn.setVisibility(View.VISIBLE);
 
     }
 }
