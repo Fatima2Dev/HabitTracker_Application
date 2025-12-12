@@ -31,6 +31,8 @@ public class Habit_Details extends AppCompatActivity {
     Habit habit;
     int habitId;
 
+    private int selectedFeeling = 0
+;
 
     public static final String EXTRA_HABIT_ID = "extra_habit_id";
 
@@ -107,10 +109,31 @@ public class Habit_Details extends AppCompatActivity {
         save_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveClick();
 
             }
 
         });
+
+        happy_face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Check if editing is enabled before allowing a change
+                if (cue_et.isFocusable()) { // A simple way to check if we are in edit mode
+                    updateFeelingSelection(1);
+                }
+            }
+        });
+
+        neutral_face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cue_et.isFocusable()) {
+                    updateFeelingSelection(2);
+                }
+            }
+        });
+
 
 
     }
@@ -124,7 +147,13 @@ public class Habit_Details extends AppCompatActivity {
 
     }
 
-    public boolean saveClick() {
+    public void saveClick() {
+        boolean success = updateHabit();
+        if (success) { return;}
+        Toast.makeText(this, "Habit not updated", Toast.LENGTH_SHORT).show();
+        EditButtonShow();
+        disableEditing();
+        SaveButtonHide();
 
     }
 
@@ -142,7 +171,7 @@ public class Habit_Details extends AppCompatActivity {
                 updatedCue, updatedAction, updatedReward,
                 habit.getHabit_replaced(),
                 updatedReflection,
-                habit.getCurrent_feeling(),
+                selectedFeeling,
                 habit.getStreak(),
                 habit.getColor(),
                 habit.isCompleted(),
@@ -150,7 +179,7 @@ public class Habit_Details extends AppCompatActivity {
 
         if (success) {
 
-            updateHabitDetails();
+            UpdateHabitDetails();
             Toast.makeText(this, "Habit updated successfully", Toast.LENGTH_SHORT).show();
             disableEditing();
             EditButtonShow();
@@ -168,14 +197,31 @@ public class Habit_Details extends AppCompatActivity {
         action_et.setFocusableInTouchMode(true);
         reward_et.setFocusableInTouchMode(true);
         notes_et.setFocusableInTouchMode(true);
+        cue_et.setClickable(true);
+        action_et.setClickable(true);
+        reward_et.setClickable(true);
+        notes_et.setClickable(true);
+
 
     }
 
     public void disableEditing() {
+        findViewById(R.id.main).requestFocus();
         cue_et.setFocusableInTouchMode(false);
         action_et.setFocusableInTouchMode(false);
         reward_et.setFocusableInTouchMode(false);
         notes_et.setFocusableInTouchMode(false);
+        cue_et.setClickable(false);
+        action_et.setClickable(false);
+        reward_et.setClickable(false);
+        notes_et.setClickable(false);
+
+        cue_et.clearFocus();
+        action_et.clearFocus();
+        reward_et.clearFocus();
+        notes_et.clearFocus();
+
+
 
     }
 
@@ -215,8 +261,25 @@ public class Habit_Details extends AppCompatActivity {
             }
 
         }
-         Toast.;
+         Toast.makeText(this, "Habit not found", Toast.LENGTH_SHORT).show();
     }
+
+
+
+    private void updateFeelingSelection(int feeling) {
+        // Update the class variable
+        this.selectedFeeling = feeling;
+
+
+        happy_face.setAlpha(feeling == 1 ? 1.0f : 0.3f);
+
+
+        neutral_face.setAlpha(feeling == 2 ? 1.0f : 0.3f);
+
+
+        sad_face.setAlpha(feeling == 3 ? 1.0f : 0.3f);
+    }
+
 
 }
 
