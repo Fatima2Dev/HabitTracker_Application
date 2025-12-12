@@ -66,6 +66,7 @@ public class Habit_Details extends AppCompatActivity {
 
         Intent intent = getIntent();
         habitId = intent.getIntExtra(EXTRA_HABIT_ID, -1);
+
         if (habitId != -1) {
             habit = db.getHabitById(habitId);
 
@@ -94,8 +95,8 @@ public class Habit_Details extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean success = editClick();
-                if (success){
-                    Toast.makeText(Habit_Details.this,"Please change your desired fields",Toast.LENGTH_SHORT).show();
+                if (success) {
+                    Toast.makeText(Habit_Details.this, "Please change your desired fields", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -112,10 +113,9 @@ public class Habit_Details extends AppCompatActivity {
         });
 
 
-
     }
 
-    public boolean editClick(){
+    public boolean editClick() {
         EditButtonHide();
         enableEditing();
         SaveButtonShow();
@@ -124,28 +124,45 @@ public class Habit_Details extends AppCompatActivity {
 
     }
 
-    public boolean saveClick(){
+    public boolean saveClick() {
 
     }
 
-    public boolean updateHabit(){
+    public boolean updateHabit() {
 
         if (habit == null) {
-            return false; }
+            return false;
+        }
 
         String updatedCue = cue_et.getText().toString();
         String updatedAction = action_et.getText().toString();
         String updatedReward = reward_et.getText().toString();
         String updatedReflection = notes_et.getText().toString();
-         db.updateHabit(habit.getHabit_ID(),habit.getName(),updatedCue,updatedAction,updatedReward,
-                habit.getHabit_replaced(),updatedReflection,habit.getCurrent_feeling(),habit.getStreak(),habit.getColor(),habit.getCompleted(),habit.getUser_ID())
+        boolean success = db.updateHabit(habit.getHabit_ID(), habit.getName(),
+                updatedCue, updatedAction, updatedReward,
+                habit.getHabit_replaced(),
+                updatedReflection,
+                habit.getCurrent_feeling(),
+                habit.getStreak(),
+                habit.getColor(),
+                habit.isCompleted(),
+                habit.getUser_ID());
 
+        if (success) {
 
+            updateHabitDetails();
+            Toast.makeText(this, "Habit updated successfully", Toast.LENGTH_SHORT).show();
+            disableEditing();
+            EditButtonShow();
+            SaveButtonHide();
+            return true;
+        }
 
+        return false;
 
     }
 
-    public void enableEditing(){
+    public void enableEditing() {
 
         cue_et.setFocusableInTouchMode(true);
         action_et.setFocusableInTouchMode(true);
@@ -154,7 +171,7 @@ public class Habit_Details extends AppCompatActivity {
 
     }
 
-    public void disableEditing(){
+    public void disableEditing() {
         cue_et.setFocusableInTouchMode(false);
         action_et.setFocusableInTouchMode(false);
         reward_et.setFocusableInTouchMode(false);
@@ -162,23 +179,44 @@ public class Habit_Details extends AppCompatActivity {
 
     }
 
-    public void EditButtonHide(){
+    public void EditButtonHide() {
         edit_btn.setVisibility(View.GONE);
 
     }
 
-    public void EditButtonShow(){
+    public void EditButtonShow() {
         edit_btn.setVisibility(View.VISIBLE);
 
     }
 
-    public void SaveButtonHide(){
+    public void SaveButtonHide() {
         save_btn.setVisibility(View.GONE);
 
     }
 
-    public void SaveButtonShow(){
+    public void SaveButtonShow() {
         save_btn.setVisibility(View.VISIBLE);
 
     }
+
+    public void UpdateHabitDetails() {
+        if (habitId != -1) {
+            habit = db.getHabitById(habitId);
+
+            if (habit != null) {
+
+                Habitname_tv.setText(habit.getName());
+
+                cue_et.setText(habit.getCue());
+                action_et.setText(habit.getAction());
+                reward_et.setText(habit.getReward());
+                notes_et.setText(habit.getHabit_reflection());
+                return;
+            }
+
+        }
+         Toast.;
+    }
+
 }
+
