@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HabitDashboardActivity extends AppCompatActivity implements HabitAdapter.OnHabitInteractionListener {
 
     private HabitAdapter habitAdapter;
-    private List<Habit> habits;
-
+    private List<Habit> habits = new ArrayList<>();
     private RecyclerView habitsRecyclerView;
     private TextView emptyStateTextView;
     private TextView progressIndicatorTextView;
@@ -48,23 +48,38 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         updateDashboard();
     }
 
+
+
+
+
+
+
+
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh habits from database when returning
         loadHabits();
         habitAdapter.notifyDataSetChanged();
         updateDashboard();
     }
 
+
+
+    // In HabitDashboardActivity.java
+
     private void loadHabits() {
         DatabaseHelper db = new DatabaseHelper(this);
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        int userId = prefs.getInt("userId", -1);
+        int userId = prefs.getInt("currentUserId", -1);
 
-        habits = db.getAllHabits(userId); // fetch latest habits for this user
+        // ** THIS IS THE FIX **
+        // 1. Clear the existing list that the adapter is watching.
+        habits.clear();
+        // 2. Add all the new items into that same list.
+        habits.addAll(db.getAllHabits(userId));
     }
+
 
     private void updateDashboard() {
         updateProgressIndicator();
@@ -94,7 +109,6 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
 
     @Override
     public void onHabitStateChanged() {
-        // Refresh UI when a habit's state changes
         loadHabits();
         habitAdapter.notifyDataSetChanged();
         updateDashboard();
@@ -124,7 +138,7 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
     @Override
     public void onHabitClicked(int position) {
         Habit habit = habits.get(position);
-        Intent intent = new Intent(this, HabitDetailsActivity.class);
+        Intent intent = new Intent(this, Habit_Details.class);
 
         intent.putExtra(Habit_Details.EXTRA_HABIT_ID, habit.getHabit_ID());
         startActivity(intent);
