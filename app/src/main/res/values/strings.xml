@@ -2,4 +2,5 @@
     <string name="app_name">habit tracker</string>
     <string name="back">Back</string>
     <string name="edit_habit">Edit Habit</string>
+    <string name="save_habit">Save habit</string>
 </resources>

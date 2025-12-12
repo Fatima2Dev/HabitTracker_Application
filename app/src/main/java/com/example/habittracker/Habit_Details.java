@@ -1,8 +1,10 @@
 package com.example.habittracker;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,11 +18,12 @@ import androidx.core.view.WindowInsetsCompat;
 public class Habit_Details extends AppCompatActivity {
 
     TextView Habitname_tv;
-    EditText cue_et,action_et,reward_et,notes_et;
+    EditText cue_et, action_et, reward_et, notes_et;
 
-    ImageView happy_face,neutral_face,sad_face;
+    ImageView happy_face, neutral_face, sad_face;
     String habit_name;
 
+    Button edit_btn, save_btn;
 
 
     private DatabaseHelper db;
@@ -28,6 +31,7 @@ public class Habit_Details extends AppCompatActivity {
     public static final String EXTRA_HABIT_ID = "extra_habit_id";
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +43,19 @@ public class Habit_Details extends AppCompatActivity {
             return insets;
         });
 
-        Habitname_tv =(TextView)findViewById(R.id.habit_name_tv);
-        cue_et =(EditText)findViewById(R.id.cue_et);
-        action_et =(EditText)findViewById(R.id.routine_et);
-        reward_et =(EditText)findViewById(R.id.reward_et);
-        notes_et =(EditText)findViewById(R.id.reflection_et);
-        happy_face =(ImageView)findViewById(R.id.happy_face);
-        neutral_face =(ImageView)findViewById(R.id.neutral_face);
-        sad_face =(ImageView)findViewById(R.id.sad_face);
-        Habitname_tv =(TextView)findViewById(R.id.habit_name_tv);
+        Habitname_tv = (TextView) findViewById(R.id.habit_name_tv);
+        cue_et = (EditText) findViewById(R.id.cue_et);
+        action_et = (EditText) findViewById(R.id.routine_et);
+        reward_et = (EditText) findViewById(R.id.reward_et);
+        notes_et = (EditText) findViewById(R.id.reflection_et);
+        happy_face = (ImageView) findViewById(R.id.happy_face);
+        neutral_face = (ImageView) findViewById(R.id.neutral_face);
+        sad_face = (ImageView) findViewById(R.id.sad_face);
+        Habitname_tv = (TextView) findViewById(R.id.habit_name_tv);
+
+        edit_btn = (Button) findViewById(R.id.edit_habit_btn);
+        save_btn = (Button) findViewById(R.id.save_btn);
+
 
         db = new DatabaseHelper(this);
 
@@ -67,10 +75,8 @@ public class Habit_Details extends AppCompatActivity {
                 notes_et.setText(habit.getHabit_reflection());
             }
 
-
-            ImageView backArrow = findViewById(R.id.backArrow);
-
-
+        }
+        ImageView backArrow = findViewById(R.id.backArrow);
 
 
         backArrow.setOnClickListener(new View.OnClickListener() {
@@ -79,5 +85,61 @@ public class Habit_Details extends AppCompatActivity {
                 finish();  // closes this activity
             }
         });
+
+        save_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+
+        });
+
+        edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+
+        });
+
+
+
+    }
+
+    public boolean editHabits(){
+
+    }
+
+    public void enableEditing(){
+
+        cue_et.setFocusableInTouchMode(true);
+        action_et.setFocusableInTouchMode(true);
+        reward_et.setFocusableInTouchMode(true);
+        notes_et.setFocusableInTouchMode(true);
+
+    }
+
+    public void disableEditing(){
+        cue_et.setFocusableInTouchMode(false);
+        action_et.setFocusableInTouchMode(false);
+        reward_et.setFocusableInTouchMode(false);
+        notes_et.setFocusableInTouchMode(false);
+
+    }
+
+    public void EditButtonHide(){
+
+    }
+
+    public void EditButtonShow(){
+
+    }
+
+    public void SaveButtonHide(){
+
+    }
+
+    public void SaveButtonShow(){
+
+    }
 }
-}}
