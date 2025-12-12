@@ -64,7 +64,7 @@ public class Habit_Details extends AppCompatActivity {
                 cue_et.setText(habit.getCue());
                 action_et.setText(habit.getAction());
                 reward_et.setText(habit.getReward());
-                notes_et.setText(habit.getHabit_reflection()); 
+                notes_et.setText(habit.getHabit_reflection());
             }
 
 
