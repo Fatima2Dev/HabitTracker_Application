@@ -1,14 +1,12 @@
 package com.example.habittracker;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,7 +15,9 @@ public class MainActivity extends AppCompatActivity {
     Button createAccount, btnLogin;
     DatabaseHelper db;
 
-    @SuppressLint("WrongViewCast")
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,69 +29,50 @@ public class MainActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         createAccount = findViewById(R.id.createAccount);
         btnLogin = findViewById(R.id.btnLogin);
-        LinearLayout googleSign = findViewById(R.id.googleSign);
-        LinearLayout appleSign = findViewById(R.id.appleSign);
 
-        createAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String e = email.getText().toString().trim();
-                String p = password.getText().toString().trim();
-                int userId;
-                if (e.isEmpty() || p.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+        createAccount.setOnClickListener(v -> {
+            String e = email.getText().toString().trim();
+            String p = password.getText().toString().trim();
+
+            if (e.isEmpty() || p.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            } else {
+                boolean isInserted = db.addUser(e, p);
+                if (isInserted) {
+                    int userId = db.getUserID(e, p);
+                    SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    prefs.edit().putInt("currentUserId", userId).apply();
+
+                    Toast.makeText(MainActivity.this, "Account Created! Logging in...", Toast.LENGTH_SHORT).show();
+                    goToDashboard();
                 } else {
-
-                    boolean isInserted = db.addUser(e, p);
-                    if (isInserted) {
-                        userId = db.getUserID(e,p);
-                        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-                        prefs.edit().putInt("currentUserId", userId).apply();
-
-                        Toast.makeText(MainActivity.this, "Account Created! Logging in...", Toast.LENGTH_SHORT).show();
-                        goToDashboard();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(MainActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String e = email.getText().toString().trim();
-                String p = password.getText().toString().trim();
+        btnLogin.setOnClickListener(v -> {
+            String e = email.getText().toString().trim();
+            String p = password.getText().toString().trim();
 
-                if (e.isEmpty() || p.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            if (e.isEmpty() || p.isEmpty()) {
+                Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            } else {
+                boolean check = db.checkUser(e, p);
+                if (check) {
+                    int userId = db.getUserID(e, p);
+                    SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                    prefs.edit().putInt("currentUserId", userId).apply();
+
+                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                    goToDashboard();
                 } else {
-
-                    boolean check = db.checkUser(e, p);
-                    if (check) {
-                        Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                        goToDashboard();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        googleSign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Google sign clicked", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        appleSign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Apple sign clicked", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     private void goToDashboard() {
         Intent intent = new Intent(MainActivity.this, HabitDashboardActivity.class);
         startActivity(intent);

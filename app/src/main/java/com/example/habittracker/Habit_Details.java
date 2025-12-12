@@ -16,6 +16,9 @@ public class Habit_Details extends AppCompatActivity {
     String habit_name= "Read 20 pages";
     TextView Habitname_tv;
 
+    public static final String EXTRA_HABIT_ID = "extra_habit_id";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,7 +3,7 @@ package com.example.habittracker;
 public class Habit {
 
 
-    private String Habit_ID;
+    private int Habit_ID;
     private String name;
     private String Cue;
     private String Action;
@@ -32,7 +32,7 @@ public class Habit {
         this.isCompleted = isCompleted;
         this.color = color;
     }
-    public Habit(String Habit_ID, String name, String Cue, String Action, String Reward,
+    public Habit(int Habit_ID, String name, String Cue, String Action, String Reward,
                  String replaces, String Habit_reflection,
                  int Current_Feeling, int streak, int color, int isCompleted,int userid) {
 
@@ -50,23 +50,10 @@ public class Habit {
         this.userid = userid;
     }
 
-    public Habit(String Habit_ID, String name, String Cue, String Action, String Reward,
-                 String replaces,  String Habit_reflection,
-                 int Current_Feeling) {
-
-        this.Habit_ID = Habit_ID;
-        this.name = name;
-        this.Cue = Cue;
-        this.Action = Action;
-        this.Reward = Reward;
-        this.replaces = replaces;
-        this.Habit_reflection = Habit_reflection;
-        this.Current_Feeling = Current_Feeling;
-    }
 
 
 
-    public String getHabit_ID() {
+    public int getHabit_ID() {
         return Habit_ID;
     }
 

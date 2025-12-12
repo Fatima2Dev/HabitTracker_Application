@@ -98,7 +98,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                userId = cursor.getInt(cursor.getColumnIndexOrThrow(COL_1));
             }
             cursor.close();
         }
@@ -184,11 +184,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HABITS,
-                new String[]{"id"},
+                new String[]{T2_COL_1}, // Use the correct column constant
                 T2_COL_2+" = ?",
                 new String[]{name},
                 null, null, null
         );
+
 
         boolean exists = false;
         if (cursor != null) {
@@ -210,7 +211,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
 
-    public ArrayList<Habit> getAllHabitsForPerson(int personId) {
+    public ArrayList<Habit> getAllHabits(int personId) {
         ArrayList<Habit> habitList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -226,7 +227,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Habit habit = new Habit(
-                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_1)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_1)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_2)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_3)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_4)),
