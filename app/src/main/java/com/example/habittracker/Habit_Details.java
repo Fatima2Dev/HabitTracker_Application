@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,9 @@ public class Habit_Details extends AppCompatActivity {
 
     TextView Habitname_tv;
     EditText cue_et, action_et, reward_et, notes_et;
+
+    TextView feeling_inquiry_tv;
+    LinearLayout feeling_selection_layout;
 
     ImageView happy_face, neutral_face, sad_face;
     String habit_name;
@@ -59,6 +63,9 @@ public class Habit_Details extends AppCompatActivity {
         sad_face = (ImageView) findViewById(R.id.sad_face);
         Habitname_tv = (TextView) findViewById(R.id.habit_name_tv);
 
+        feeling_inquiry_tv = (TextView) findViewById(R.id.feeling_inquiry_tv);
+        feeling_selection_layout = (LinearLayout) findViewById(R.id.feeling_selection_layout);
+
         edit_btn = (Button) findViewById(R.id.edit_habit_btn);
         save_btn = (Button) findViewById(R.id.save_btn);
 
@@ -79,7 +86,11 @@ public class Habit_Details extends AppCompatActivity {
                 cue_et.setText(habit.getCue());
                 action_et.setText(habit.getAction());
                 reward_et.setText(habit.getReward());
-                notes_et.setText(habit.getHabit_reflection());
+                determineReflection();
+
+                int initialFeeling = habit.getCurrent_Feeling();
+
+                updateFeelingSelection(initialFeeling);
             }
 
         }
@@ -134,6 +145,15 @@ public class Habit_Details extends AppCompatActivity {
             }
         });
 
+        sad_face.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cue_et.isFocusable()) {
+                    updateFeelingSelection(3);
+                }
+            }
+        });
+
 
 
     }
@@ -141,11 +161,23 @@ public class Habit_Details extends AppCompatActivity {
     public boolean editClick() {
         EditButtonHide();
         enableEditing();
+        showReflectionInquiry();
         SaveButtonShow();
         return true;
 
 
     }
+
+    public void showReflectionInquiry(){
+        feeling_inquiry_tv.setVisibility(View.VISIBLE);
+        feeling_selection_layout.setVisibility(View.VISIBLE);
+    }
+
+    public void hideReflectionInquiry(){
+        feeling_inquiry_tv.setVisibility(View.GONE);
+        feeling_selection_layout.setVisibility(View.GONE);
+    }
+
 
     public void saveClick() {
         boolean success = updateHabit();
@@ -153,10 +185,20 @@ public class Habit_Details extends AppCompatActivity {
         Toast.makeText(this, "Habit not updated", Toast.LENGTH_SHORT).show();
         EditButtonShow();
         disableEditing();
+
         SaveButtonHide();
 
     }
 
+    public void determineReflection() {
+        if (habit.getHabit_reflection()==""){
+            notes_et.setText("No current reflection yet");
+        }
+        else {
+            notes_et.setText(habit.getHabit_reflection());
+        }
+
+    }
     public boolean updateHabit() {
 
         if (habit == null) {
@@ -184,6 +226,7 @@ public class Habit_Details extends AppCompatActivity {
             disableEditing();
             EditButtonShow();
             SaveButtonHide();
+            hideReflectionInquiry();
             return true;
         }
 
@@ -256,7 +299,8 @@ public class Habit_Details extends AppCompatActivity {
                 cue_et.setText(habit.getCue());
                 action_et.setText(habit.getAction());
                 reward_et.setText(habit.getReward());
-                notes_et.setText(habit.getHabit_reflection());
+                determineReflection();
+
                 return;
             }
 
