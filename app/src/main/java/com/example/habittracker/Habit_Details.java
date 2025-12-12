@@ -3,6 +3,7 @@ package com.example.habittracker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,6 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 public class Habit_Details extends AppCompatActivity {
 
     TextView Habitname_tv;
+    EditText cue_et,action_et,reward_et,notes_et;
+
+    ImageView happy_face,neutral_face,sad_face;
+    String habit_name;
+
 
 
     private DatabaseHelper db;
@@ -33,6 +39,19 @@ public class Habit_Details extends AppCompatActivity {
             return insets;
         });
 
+        Habitname_tv =(TextView)findViewById(R.id.habit_name_tv);
+        cue_et =(EditText)findViewById(R.id.cue_et);
+        action_et =(EditText)findViewById(R.id.routine_et);
+        reward_et =(EditText)findViewById(R.id.reward_et);
+        notes_et =(EditText)findViewById(R.id.reflection_et);
+        happy_face =(ImageView)findViewById(R.id.happy_face);
+        neutral_face =(ImageView)findViewById(R.id.neutral_face);
+        sad_face =(ImageView)findViewById(R.id.sad_face);
+        Habitname_tv =(TextView)findViewById(R.id.habit_name_tv);
+
+        db = new DatabaseHelper(this);
+
+
         Intent intent = getIntent();
         int habitId = intent.getIntExtra(EXTRA_HABIT_ID, -1);
         if (habitId != -1) {
@@ -40,11 +59,18 @@ public class Habit_Details extends AppCompatActivity {
 
             if (habit != null) {
 
+                Habitname_tv.setText(habit.getName());
+
+                cue_et.setText(habit.getCue());
+                action_et.setText(habit.getAction());
+                reward_et.setText(habit.getReward());
+                notes_et.setText(habit.getHabit_reflection()); 
             }
 
-        ImageView backArrow = findViewById(R.id.backArrow);
-        Habitname_tv =(TextView)findViewById(R.id.habit_name_tv);
-        Habitname_tv.setText(habit_name);
+
+            ImageView backArrow = findViewById(R.id.backArrow);
+
+
 
 
         backArrow.setOnClickListener(new View.OnClickListener() {
