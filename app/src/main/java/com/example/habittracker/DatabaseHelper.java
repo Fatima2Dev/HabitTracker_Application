@@ -3,8 +3,10 @@ package com.example.habittracker;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, 2);
         this.context=context;
     }
 
@@ -52,22 +54,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(@NonNull SQLiteDatabase db) {
         String createHabitsTable = "CREATE TABLE "+TABLE_HABITS+" (" +
                 "Habit_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "Habit_name NOT NULL,"+
+                "Habit_name TEXT NOT NULL,"+
                 "Cue TEXT, " +
                 "Habit_action TEXT, " +
                 "Reward TEXT, " +
                 "Habit_replaced TEXT," +
-
                 "Habit_reflection TEXT,"+
-                "Current_feeling INT,"+
-                "Streak INT,"+
-                "Color INT,"+
-                "User_ID INT NOT NULL,"+
-                "Completed INT NOT NULL"+
-                ");";
+                "Current_Feeling INTEGER,"+
+                "Streak INTEGER,"+
+                "Color INTEGER,"+
+                "Completed INTEGER NOT NULL," +
+                "User_ID INTEGER NOT NULL" +
+                ")";
 
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT, PASSWORD TEXT)");
-        db.execSQL(createHabitsTable);
+        String createUsersTable = "CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT, PASSWORD TEXT)";
+
+        try {
+            Log.d("DatabaseHelper", "Attempting to create users table.");
+            db.execSQL(createUsersTable);
+            Log.d("DatabaseHelper", "Users table created successfully.");
+
+            Log.d("DatabaseHelper", "Attempting to create habits table.");
+            db.execSQL(createHabitsTable);
+            Log.d("DatabaseHelper", "Habits table created successfully.");
+        } catch (SQLException e) {
+
+            Log.e("DatabaseHelper", "Error creating tables: " + e.getMessage());
+        }
+
+
+
+        //db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT, PASSWORD TEXT)");
+       // db.execSQL(createHabitsTable);
     }
 
     @Override
@@ -98,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                userId = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                userId = cursor.getInt(cursor.getColumnIndexOrThrow(COL_1));
             }
             cursor.close();
         }
@@ -120,6 +138,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return count > 0;
     }
+    public boolean habitExists2(String name) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(TABLE_HABITS,
+                new String[]{T2_COL_1},
+                T2_COL_2 + " = ?",
+                new String[]{name},
+                null, null, null);
+
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
 
     public boolean addHabit(String name,String cue, String action, String reward,
                             String replacedHabit,
@@ -127,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        if (habitExists(name)){
+        if (habitExists2(name)){
             Toast.makeText(context, "There already exists a habit with the entered name",Toast.LENGTH_LONG).show();
             return false;
         }
@@ -153,16 +183,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public boolean updateHabit(int id,String name, String cue, String action, String reward,
                                String replacedHabit,
 
-                               String reflection, int feeling,int streak, int color,int userid) {
+                               String reflection, int feeling,int streak, int color,int completed,int userid) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        if (habitExists(name)){
-            Toast.makeText(context, "There already exists a habit with the entered name",Toast.LENGTH_LONG).show();
+        if (this.habitExists(name, id)) {
+            Toast.makeText(context, "Another habit already has this name.", Toast.LENGTH_LONG).show();
             return false;
         }
 
-        String ID = Integer.toString(id);
         values.put(T2_COL_2, name);
         values.put(T2_COL_3, cue);
         values.put(T2_COL_4, action);
@@ -173,30 +202,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(T2_COL_8,feeling);
         values.put(T2_COL_9,streak);
         values.put(T2_COL_10,color);
+        values.put(T2_COL_11, completed);
         values.put(T2_COL_12,userid);
 
 
-        int rows = db.update(TABLE_HABITS,values, T2_COL_1+" = ?",new String[]{ID});
+        int rows = db.update(TABLE_HABITS,values, T2_COL_1+" = ?",new String[]{String.valueOf(id)});
         return rows > 0;
     }
 
-    public boolean habitExists(String name) {
+    public boolean habitExists(String name, int currentHabitId) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HABITS,
-                new String[]{"id"},
-                T2_COL_2+" = ?",
-                new String[]{name},
-                null, null, null
+                new String[]{T2_COL_1}, // Use the correct column constant
+                T2_COL_2+" = ? AND " + T2_COL_1 + " != ?",
+                new String[]{name, String.valueOf(currentHabitId)},                null, null, null
         );
 
-        boolean exists = false;
-        if (cursor != null) {
-            if( cursor.getCount() > 0)
-            {exists=true;}
-            cursor.close();
-        }
 
+        boolean exists = cursor.getCount()>0;
+        cursor.close();
         return exists;
     }
 
@@ -210,23 +235,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rows > 0;
     }
 
-    public ArrayList<Habit> getAllHabitsForPerson(int personId) {
+    public ArrayList<Habit> getAllHabits(int personId) {
         ArrayList<Habit> habitList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        // Query the habits table for rows matching the person_id
+
         Cursor cursor = db.query(
-                "habits",                  // Table name
-                null,                       // Columns (null = all)
-                "person_id = ?",            // WHERE clause
-                new String[]{String.valueOf(personId)}, // WHERE args
-                null, null, null            // groupBy, having, orderBy
+                TABLE_HABITS,              // Use the correct table constant
+                null,
+                T2_COL_12 + " = ?",        // Use the correct user ID column constant
+                new String[]{String.valueOf(personId)},
+                null, null, null
         );
+
 
         if (cursor.moveToFirst()) {
             do {
                 Habit habit = new Habit(
-                        cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_1)),
+                        cursor.getInt(cursor.getColumnIndexOrThrow(T2_COL_1)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_2)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_3)),
                         cursor.getString(cursor.getColumnIndexOrThrow(T2_COL_4)),
@@ -248,10 +274,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-
-
-
-
-
 }
+
+
+
+
+
+
+

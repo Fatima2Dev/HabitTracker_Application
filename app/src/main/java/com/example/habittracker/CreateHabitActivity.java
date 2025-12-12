@@ -22,7 +22,14 @@ public class CreateHabitActivity extends AppCompatActivity {
     public static final String EXTRA_EMOJI = "com.example.habittracker.EXTRA_EMOJI";
     public static final String EXTRA_HABIT_COLOR = "com.example.habittracker.EXTRA_HABIT_COLOR";
 
-    DatabaseHelper db = new DatabaseHelper(this);
+    DatabaseHelper db;
+    private EditText emojiEditText;
+    private EditText habitNameEditText;
+    private EditText habitActionEditText;
+    private EditText habitCueEditText;
+    private EditText habitRewardEditText;
+    private EditText replacesHabitEditText;
+    private RadioGroup colorRadioGroup;
 
 
 
@@ -33,14 +40,20 @@ public class CreateHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_habit);
 
+
+        db = new DatabaseHelper(this);
+
+
+
+        // --- FIX PART 2: Initialize the member variables ---
         ImageButton backButton = findViewById(R.id.btn_back);
-        EditText emojiEditText = findViewById(R.id.et_emoji);
-        EditText habitNameEditText = findViewById(R.id.et_habit_name);
-        EditText habitActionEditText = findViewById(R.id.et_habit_action);
-        EditText habitCueEditText = findViewById(R.id.et_habit_cue);
-        EditText habitRewardEditText = findViewById(R.id.et_habit_reward);
-        EditText replacesHabitEditText = findViewById(R.id.et_habit_replaces);
-        RadioGroup colorRadioGroup = findViewById(R.id.rg_habit_color);
+        emojiEditText = findViewById(R.id.et_emoji); // No "EditText" type here
+        habitNameEditText = findViewById(R.id.et_habit_name);
+        habitActionEditText = findViewById(R.id.et_habit_action);
+        habitCueEditText = findViewById(R.id.et_habit_cue);
+        habitRewardEditText = findViewById(R.id.et_habit_reward);
+        replacesHabitEditText = findViewById(R.id.et_habit_replaces);
+        colorRadioGroup = findViewById(R.id.rg_habit_color);
         Button createHabitButton = findViewById(R.id.btn_create_habit);
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -61,8 +74,9 @@ public class CreateHabitActivity extends AppCompatActivity {
                 String emoji = emojiEditText.getText().toString();
                 int selectedColor = getSelectedColor(colorRadioGroup.getCheckedRadioButtonId());
 
-                SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-                int userId = prefs.getInt("userId", -1);
+                // Corrected lines
+                SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+                int userId = prefs.getInt("currentUserId", -1);
 
                 boolean result = db.addHabit(habitName,habitCue,habitAction,habitReward,replacesHabit,"",
                         0,0,selectedColor,userId);

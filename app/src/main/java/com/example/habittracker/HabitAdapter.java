@@ -29,6 +29,18 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         this.listener = listener;
     }
 
+    // In HabitAdapter.java, add this entire method:
+
+    public void updateData(List<Habit> newHabits) {
+        // Clear the old list of habits
+        this.habits.clear();
+        // Add all the new habits from the list passed in
+        this.habits.addAll(newHabits);
+        // Tell the RecyclerView to refresh itself
+        notifyDataSetChanged();
+    }
+
+
     @NonNull
     @Override
     public HabitViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -104,8 +116,8 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             emojiTextView.setVisibility(habit.getEmoji() != null && !habit.getEmoji().isEmpty() ? View.VISIBLE : View.GONE);
             emojiTextView.setText(habit.getEmoji());
 
-            //descriptionTextView.setVisibility(habit.getDescription() != null && !habit.getDescription().isEmpty() ? View.VISIBLE : View.GONE);
-            //descriptionTextView.setText(habit.getDescription());
+            descriptionTextView.setVisibility(habit.getAction() != null && !habit.getAction().isEmpty() ? View.VISIBLE : View.GONE);
+            descriptionTextView.setText(habit.getAction());
 
             boolean isReplaced = habit.getReplaces() != null && !habit.getReplaces().isEmpty();
             replacesTextView.setVisibility(isReplaced ? View.VISIBLE : View.GONE);

@@ -2,56 +2,27 @@ package com.example.habittracker;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HabitDashboardActivity extends AppCompatActivity implements HabitAdapter.OnHabitInteractionListener {
 
-    private static final String SHARED_PREFS = "sharedPrefs";
-    private static final String HABITS_KEY = "habits";
-
     private HabitAdapter habitAdapter;
-    private List<Habit> habits;
-
+    private List<Habit> habits = new ArrayList<>();
     private RecyclerView habitsRecyclerView;
     private TextView emptyStateTextView;
     private TextView progressIndicatorTextView;
-
-    private final ActivityResultLauncher<Intent> createHabitLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    String habitName = result.getData().getStringExtra(CreateHabitActivity.EXTRA_HABIT_NAME);
-                    String habitDescription = result.getData().getStringExtra(CreateHabitActivity.EXTRA_HABIT_DESCRIPTION);
-                    String replacesHabit = result.getData().getStringExtra(CreateHabitActivity.EXTRA_REPLACES_HABIT);
-                    String emoji = result.getData().getStringExtra(CreateHabitActivity.EXTRA_EMOJI);
-                    int habitColor = result.getData().getIntExtra(CreateHabitActivity.EXTRA_HABIT_COLOR, Color.parseColor("#FF7043"));
-
-                    if (habitName != null && !habitName.isEmpty()) {
-                        Habit newHabit = new Habit(habitName, habitDescription, replacesHabit, emoji, 0, 0, habitColor);
-                        habits.add(0, newHabit);
-                        habitAdapter.notifyItemInserted(0);
-                        saveAndRefresh();
-                    }
-                }
-            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +36,11 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         FloatingActionButton fab = findViewById(R.id.fab_add_habit);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(HabitDashboardActivity.this, CreateHabitActivity.class);
-            createHabitLauncher.launch(intent);
+            startActivity(intent);
         });
 
+        // Initial load
         loadHabits();
-
         habitAdapter = new HabitAdapter(habits, this);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         habitsRecyclerView.setAdapter(habitAdapter);
@@ -77,10 +48,38 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         updateDashboard();
     }
 
-    private void saveAndRefresh() {
-        saveHabits();
+
+
+
+
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadHabits();
+        habitAdapter.notifyDataSetChanged();
         updateDashboard();
     }
+
+
+
+    // In HabitDashboardActivity.java
+
+    private void loadHabits() {
+        DatabaseHelper db = new DatabaseHelper(this);
+
+        SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        int userId = prefs.getInt("currentUserId", -1);
+
+        // ** THIS IS THE FIX **
+        // 1. Clear the existing list that the adapter is watching.
+        habits.clear();
+        // 2. Add all the new items into that same list.
+        habits.addAll(db.getAllHabits(userId));
+    }
+
 
     private void updateDashboard() {
         updateProgressIndicator();
@@ -91,7 +90,7 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         long completedCount = 0;
         long totalHabitCount = habits.size();
         for (Habit habit : habits) {
-            if (habit.isCompleted()==1) {
+            if (habit.isCompleted() == 1) {
                 completedCount++;
             }
         }
@@ -110,19 +109,27 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
 
     @Override
     public void onHabitStateChanged() {
-        saveAndRefresh();
+        loadHabits();
+        habitAdapter.notifyDataSetChanged();
+        updateDashboard();
     }
 
     @Override
     public void onHabitLongPressed(int position) {
         Habit habitToDelete = habits.get(position);
+
         new AlertDialog.Builder(this)
                 .setTitle("Delete Habit")
                 .setMessage("Are you sure you want to delete '" + habitToDelete.getName() + "'?")
                 .setPositiveButton("Delete", (dialog, which) -> {
-                    habits.remove(position);
-                    habitAdapter.notifyItemRemoved(position);
-                    saveAndRefresh();
+                    DatabaseHelper db = new DatabaseHelper(this);
+                    boolean deleted = db.deleteHabit(habitToDelete.getHabit_ID()); // pass ID
+
+                    if (deleted) {
+                        habits.remove(position);
+                        habitAdapter.notifyItemRemoved(position);
+                        updateDashboard();
+                    }
                 })
                 .setNegativeButton("Cancel", null)
                 .show();
@@ -131,30 +138,9 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
     @Override
     public void onHabitClicked(int position) {
         Habit habit = habits.get(position);
-        Intent intent = new Intent(this, HabitDetailsActivity.class);
-        intent.putExtra(HabitDetailsActivity.EXTRA_HABIT_NAME, habit.getName());
-        //intent.putExtra(HabitDetailsActivity.EXTRA_HABIT_DESCRIPTION, habit.getDescription());
+        Intent intent = new Intent(this, Habit_Details.class);
+
+        intent.putExtra(Habit_Details.EXTRA_HABIT_ID, habit.getHabit_ID());
         startActivity(intent);
-    }
-
-    private void loadHabits() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        String json = sharedPreferences.getString(HABITS_KEY, null);
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Habit>>() {}.getType();
-        habits = gson.fromJson(json, type);
-
-        if (habits == null) {
-            habits = new ArrayList<>();
-        }
-    }
-
-    private void saveHabits() {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(habits);
-        editor.putString(HABITS_KEY, json);
-        editor.apply();
     }
 }
