@@ -191,8 +191,8 @@ public class Habit_Details extends AppCompatActivity {
     }
 
     public void determineReflection() {
-        if (habit.getHabit_reflection()==""){
-            notes_et.setText("No current reflection yet");
+        if (habit.getHabit_reflection() == null || habit.getHabit_reflection().equals("")){
+            notes_et.setHint("No current reflection yet");
         }
         else {
             notes_et.setText(habit.getHabit_reflection());
