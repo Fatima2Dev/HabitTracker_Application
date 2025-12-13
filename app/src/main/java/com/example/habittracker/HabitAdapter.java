@@ -31,14 +31,9 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         this.listener = listener;
     }
 
-    // In HabitAdapter.java, add this entire method:
-
     public void updateData(List<Habit> newHabits) {
-        // Clear the old list of habits
         this.habits.clear();
-        // Add all the new habits from the list passed in
         this.habits.addAll(newHabits);
-        // Tell the RecyclerView to refresh itself
         notifyDataSetChanged();
     }
 
@@ -84,9 +79,25 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
                 int position = getAdapterPosition();
                 if (listener != null && position != RecyclerView.NO_POSITION) {
                     Habit habit = habits.get(position);
-                    if(completedCheckBox.isChecked()){
-                    habit.setCompleted(1);}
-                    updateStrikeThrough(habit.isCompleted()==1);
+                    habit.setCompleted(completedCheckBox.isChecked() ? 1 : 0);
+
+                    DatabaseHelper db = new DatabaseHelper(itemView.getContext());
+                    db.updateHabit(
+                        habit.getHabit_ID(),
+                        habit.getName(),
+                        habit.getCue(),
+                        habit.getAction(),
+                        habit.getReward(),
+                        habit.getReplaces(),
+                        habit.getHabit_reflection(),
+                        habit.getCurrent_Feeling(),
+                        habit.getStreak(),
+                        habit.getColor(),
+                        habit.isCompleted(),
+                        habit.getUser_ID()
+                    );
+
+                    updateStrikeThrough(habit.isCompleted() == 1);
                     listener.onHabitStateChanged();
                 }
             });

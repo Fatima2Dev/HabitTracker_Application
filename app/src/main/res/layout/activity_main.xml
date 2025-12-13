@@ -85,8 +85,8 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
         android:text="Log In"
         android:fontFamily="@font/poppins_bold"
         android:backgroundTint="#2C7B7E"

@@ -31,17 +31,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String T2_COL_4 = "Habit_action";
     public static final String T2_COL_5 = "Reward";
     public static final String T2_COL_6 = "Habit_replaced";
-
-
-
     public static final String T2_COL_7 = "Habit_reflection";
-
     public static final String T2_COL_8 = "Current_Feeling";
     public static final String T2_COL_9 = "Streak";
     public static final String T2_COL_10 = "Color";
-
     public static final String T2_COL_11= "Completed";
-
     public static final String T2_COL_12 = "User_ID";
 
 
@@ -81,11 +75,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             Log.e("DatabaseHelper", "Error creating tables: " + e.getMessage());
         }
-
-
-
-        //db.execSQL("CREATE TABLE " + TABLE_NAME + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, EMAIL TEXT, PASSWORD TEXT)");
-       // db.execSQL(createHabitsTable);
     }
 
     @Override
@@ -102,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2, email);
         contentValues.put(COL_3, password);
         long result = db.insert(TABLE_NAME, null, contentValues);
-        return result != -1; // returns true if insert is successful
+        return result != -1;
     }
 
     public int getUserID(String email, String password){
@@ -122,10 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         return userId;
-
-
     }
-
 
     public boolean checkUser(String email, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -138,6 +124,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return count > 0;
     }
+
+    public boolean checkUserExists(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] columns = { COL_1 };
+        String selection = COL_2 + "=?";
+        String[] selectionArgs = { email };
+
+        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count > 0;
+    }
+
     public boolean habitExists2(String name) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_HABITS,
@@ -174,10 +173,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(T2_COL_11,0);
         contentValues.put(T2_COL_12,userid);
 
-
-
         long result = db.insert(TABLE_HABITS, null, contentValues);
-        return result != -1; // returns true if insert is successful
+        return result != -1;
     }
 
     public boolean updateHabit(int id,String name, String cue, String action, String reward,
@@ -205,7 +202,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(T2_COL_11, completed);
         values.put(T2_COL_12,userid);
 
-
         int rows = db.update(TABLE_HABITS,values, T2_COL_1+" = ?",new String[]{String.valueOf(id)});
         return rows > 0;
     }
@@ -214,11 +210,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_HABITS,
-                new String[]{T2_COL_1}, // Use the correct column constant
+                new String[]{T2_COL_1},
                 T2_COL_2+" = ? AND " + T2_COL_1 + " != ?",
                 new String[]{name, String.valueOf(currentHabitId)},                null, null, null
         );
-
 
         boolean exists = cursor.getCount()>0;
         cursor.close();
@@ -239,15 +234,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Habit> habitList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-
         Cursor cursor = db.query(
-                TABLE_HABITS,              // Use the correct table constant
+                TABLE_HABITS,
                 null,
-                T2_COL_12 + " = ?",        // Use the correct user ID column constant
+                T2_COL_12 + " = ?",
                 new String[]{String.valueOf(personId)},
                 null, null, null
         );
-
 
         if (cursor.moveToFirst()) {
             do {
@@ -272,10 +265,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return habitList;
     }
-
-    // In C:/Users/fatim/Desktop/GitHub/HabitTracker_Application/app/src/main/java/com/example/habittracker/DatabaseHelper.java
-
-// ... (after the getAllHabits method)
 
     public Habit getHabitById(int habitId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -308,16 +297,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             e.printStackTrace();
         }
 
-
-        return habit; // Return the found habit, or null if not found
+        return habit;
     }
 
 
 }
-
-
-
-
-
-
-
