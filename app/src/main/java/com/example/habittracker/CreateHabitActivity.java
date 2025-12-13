@@ -47,7 +47,6 @@ public class CreateHabitActivity extends AppCompatActivity {
 
         // --- FIX PART 2: Initialize the member variables ---
         ImageButton backButton = findViewById(R.id.btn_back);
-        emojiEditText = findViewById(R.id.et_emoji); // No "EditText" type here
         habitNameEditText = findViewById(R.id.et_habit_name);
         habitActionEditText = findViewById(R.id.et_habit_action);
         habitCueEditText = findViewById(R.id.et_habit_cue);
@@ -71,7 +70,6 @@ public class CreateHabitActivity extends AppCompatActivity {
                 String habitAction = habitActionEditText.getText().toString();
                 String habitReward = habitRewardEditText.getText().toString();
                 String replacesHabit = replacesHabitEditText.getText().toString();
-                String emoji = emojiEditText.getText().toString();
                 int selectedColor = getSelectedColor(colorRadioGroup.getCheckedRadioButtonId());
 
                 // Corrected lines
@@ -79,7 +77,7 @@ public class CreateHabitActivity extends AppCompatActivity {
                 int userId = prefs.getInt("currentUserId", -1);
 
                 boolean result = db.addHabit(habitName,habitCue,habitAction,habitReward,replacesHabit,"",
-                        0,0,selectedColor,userId);
+                        1,0,selectedColor,userId);
                 
                 if (result==true){
 

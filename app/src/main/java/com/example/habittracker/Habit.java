@@ -104,4 +104,18 @@ public class Habit {
     public void setCompleted(int completed) {
         isCompleted = completed;
     }
+
+    public String getHabit_replaced() {
+        return replaces;
+    }
+
+
+    public int getCurrent_feeling() {
+        return Current_Feeling;
+    }
+
+    public int getUser_ID() {
+        return userid;
+
+    }
 }

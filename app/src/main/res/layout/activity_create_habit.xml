@@ -43,6 +43,16 @@
             android:text="Create New Habit"
             android:textColor="@android:color/white"
             android:textSize="28sp" />
+
+        <ImageView
+            android:id="@+id/happy_face"
+            android:layout_width="30dp"
+            android:layout_margin="20dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/happy_face_30">
+
+        </ImageView>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -52,30 +62,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/et_emoji"
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/field_bg"
-                android:fontFamily="@font/intereg"
-                android:gravity="center"
-                android:hint="💡"
-                android:inputType="text"
-                android:maxLength="2"
-                android:padding="16dp"
-                android:textColorHint="#A0A0A0" />
+
 
             <EditText
                 android:id="@+id/et_habit_name"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/field_bg"
                 android:fontFamily="@font/intereg"
@@ -84,7 +77,7 @@
                 android:padding="16dp"
                 android:textColorHint="#337789" />
 
-        </LinearLayout>
+
 
 
 

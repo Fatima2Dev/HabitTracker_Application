@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         void onHabitLongPressed(int position);
         void onHabitClicked(int position);
     }
+    public ImageView habitFeeling;
 
     private final List<Habit> habits;
     private final OnHabitInteractionListener listener;
@@ -60,7 +62,6 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
 
     class HabitViewHolder extends RecyclerView.ViewHolder {
         private final View habitColorView;
-        private final TextView emojiTextView;
         private final TextView nameTextView;
         private final TextView descriptionTextView;
         private final TextView replacesTextView;
@@ -71,7 +72,7 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
         public HabitViewHolder(@NonNull View itemView) {
             super(itemView);
             habitColorView = itemView.findViewById(R.id.view_habit_color);
-            emojiTextView = itemView.findViewById(R.id.tv_emoji);
+            habitFeeling = itemView.findViewById(R.id.image_habit_feeling);
             nameTextView = itemView.findViewById(R.id.tv_habit_name);
             descriptionTextView = itemView.findViewById(R.id.tv_habit_description);
             replacesTextView = itemView.findViewById(R.id.tv_replaces_habit);
@@ -113,8 +114,17 @@ public class HabitAdapter extends RecyclerView.Adapter<HabitAdapter.HabitViewHol
             completedCheckBox.setChecked(habit.isCompleted()==1);
             updateStrikeThrough(habit.isCompleted()==1);
 
-            emojiTextView.setVisibility(habit.getEmoji() != null && !habit.getEmoji().isEmpty() ? View.VISIBLE : View.GONE);
-            emojiTextView.setText(habit.getEmoji());
+            int feeling = habit.getCurrent_Feeling();
+
+            int drawableId;
+            if (feeling == 1) {
+                drawableId = R.drawable.happy_face_30;
+            } else if (feeling == 3) { // Assuming 3 is sad
+                drawableId = R.drawable.sad_face_30;
+            }
+            else{
+             drawableId = R.drawable.neutral_face_30;}
+            habitFeeling.setImageResource(drawableId);
 
             descriptionTextView.setVisibility(habit.getAction() != null && !habit.getAction().isEmpty() ? View.VISIBLE : View.GONE);
             descriptionTextView.setText(habit.getAction());
