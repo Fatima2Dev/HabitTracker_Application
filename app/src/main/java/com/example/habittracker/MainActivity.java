@@ -3,6 +3,7 @@ package com.example.habittracker;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,9 +15,6 @@ public class MainActivity extends AppCompatActivity {
     EditText email, password;
     Button createAccount, btnLogin;
     DatabaseHelper db;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
             if (e.isEmpty() || p.isEmpty()) {
                 Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(e).matches()) {
+                Toast.makeText(MainActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+            } else if (db.checkUserExists(e)) {
+                Toast.makeText(MainActivity.this, "This account already exists. Please log in.", Toast.LENGTH_SHORT).show();
             } else {
                 boolean isInserted = db.addUser(e, p);
                 if (isInserted) {
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (e.isEmpty() || p.isEmpty()) {
                 Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+            } else if (!Patterns.EMAIL_ADDRESS.matcher(e).matches()) {
+                Toast.makeText(MainActivity.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
             } else {
                 boolean check = db.checkUser(e, p);
                 if (check) {

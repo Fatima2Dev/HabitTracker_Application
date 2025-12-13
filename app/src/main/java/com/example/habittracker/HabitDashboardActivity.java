@@ -39,7 +39,6 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
             startActivity(intent);
         });
 
-        // Initial load
         loadHabits();
         habitAdapter = new HabitAdapter(habits, this);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -47,13 +46,6 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
 
         updateDashboard();
     }
-
-
-
-
-
-
-
 
     @Override
     protected void onResume() {
@@ -63,23 +55,15 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         updateDashboard();
     }
 
-
-
-    // In HabitDashboardActivity.java
-
     private void loadHabits() {
         DatabaseHelper db = new DatabaseHelper(this);
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         int userId = prefs.getInt("currentUserId", -1);
 
-        // ** THIS IS THE FIX **
-        // 1. Clear the existing list that the adapter is watching.
         habits.clear();
-        // 2. Add all the new items into that same list.
         habits.addAll(db.getAllHabits(userId));
     }
-
 
     private void updateDashboard() {
         updateProgressIndicator();
@@ -97,6 +81,14 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         progressIndicatorTextView.setText(totalHabitCount + "/" + completedCount);
     }
 
+    private void showAllHabitsCompletedDialog() {
+        new AlertDialog.Builder(this)
+            .setTitle("Congratulations!")
+            .setMessage("Yay! You've completed all your habits for today.")
+            .setPositiveButton("OK", null)
+            .show();
+    }
+
     private void updateEmptyState() {
         if (habits.isEmpty()) {
             emptyStateTextView.setVisibility(View.VISIBLE);
@@ -112,6 +104,17 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
         loadHabits();
         habitAdapter.notifyDataSetChanged();
         updateDashboard();
+
+        long completedCount = 0;
+        for (Habit habit : habits) {
+            if (habit.isCompleted() == 1) {
+                completedCount++;
+            }
+        }
+
+        if (completedCount == habits.size() && !habits.isEmpty()) {
+            showAllHabitsCompletedDialog();
+        }
     }
 
     @Override
@@ -123,7 +126,7 @@ public class HabitDashboardActivity extends AppCompatActivity implements HabitAd
                 .setMessage("Are you sure you want to delete '" + habitToDelete.getName() + "'?")
                 .setPositiveButton("Delete", (dialog, which) -> {
                     DatabaseHelper db = new DatabaseHelper(this);
-                    boolean deleted = db.deleteHabit(habitToDelete.getHabit_ID()); // pass ID
+                    boolean deleted = db.deleteHabit(habitToDelete.getHabit_ID());
 
                     if (deleted) {
                         habits.remove(position);
